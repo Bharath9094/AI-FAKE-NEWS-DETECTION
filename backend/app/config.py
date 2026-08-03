@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7 # 7 days
     
     # Database (Default to SQLite in app root, easily configured for PostgreSQL)
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./fake_news_app.db")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_OWP9xaX0ieRr@ep-broad-mud-avwvj2lw-pooler.c-11.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require")
     
     # NVIDIA NIM LLM Settings
     NVIDIA_NIM_API_KEY: str = os.getenv("NVIDIA_NIM_API_KEY", "")

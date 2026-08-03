@@ -8,7 +8,7 @@ const getApiBaseUrl = (): string => {
   return 'http://127.0.0.1:8000/api/v1';
 };
 
-const API_BASE_URL = getApiBaseUrl();
+export const API_BASE_URL = getApiBaseUrl();
 
 async function safeFetch(url: string, options?: RequestInit): Promise<Response> {
   try {

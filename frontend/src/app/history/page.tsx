@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { History, Bookmark, Search, Trash2, Eye, ShieldAlert, ShieldCheck, Download, Calendar } from 'lucide-react';
-import { getHistory, toggleBookmark } from '../../lib/api';
+import { getHistory, toggleBookmark, API_BASE_URL } from '../../lib/api';
 import { AnalysisResult } from '../../components/AnalysisResult';
 
 export default function HistoryPage() {
@@ -35,7 +35,7 @@ export default function HistoryPage() {
 
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this scan log?")) return;
-    await fetch(`http://127.0.0.1:8000/api/v1/history/${id}`, { method: 'DELETE' });
+    await fetch(`${API_BASE_URL}/history/${id}`, { method: 'DELETE' });
     fetchData();
   };
 

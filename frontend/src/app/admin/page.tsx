@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ShieldAlert, Users, Cpu, FileText, Activity, RefreshCw, AlertTriangle, Terminal } from 'lucide-react';
-import { getAdminDashboard } from '../../lib/api';
+import { getAdminDashboard, API_BASE_URL } from '../../lib/api';
 
 export default function AdminPage() {
   const [adminData, setAdminData] = useState<any>(null);
@@ -22,9 +22,9 @@ export default function AdminPage() {
       setAdminData(data);
 
       const [usersRes, flagsRes, logsRes] = await Promise.all([
-        fetch('http://127.0.0.1:8000/api/v1/admin/users').then(r => r.json()),
-        fetch('http://127.0.0.1:8000/api/v1/admin/flagged').then(r => r.json()),
-        fetch('http://127.0.0.1:8000/api/v1/admin/logs').then(r => r.json())
+        fetch(`${API_BASE_URL}/admin/users`).then(r => r.json()),
+        fetch(`${API_BASE_URL}/admin/flagged`).then(r => r.json()),
+        fetch(`${API_BASE_URL}/admin/logs`).then(r => r.json())
       ]);
 
       setUsers(usersRes);

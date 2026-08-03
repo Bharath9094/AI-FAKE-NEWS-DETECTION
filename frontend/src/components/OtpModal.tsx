@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { KeyRound, Lock, CheckCircle, AlertCircle } from 'lucide-react';
+import { API_BASE_URL } from '../lib/api';
 
 interface OtpModalProps {
   isOpen: boolean;
@@ -23,7 +24,7 @@ export const OtpModal: React.FC<OtpModalProps> = ({ isOpen, onClose, email }) =>
     setStatusMsg(null);
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/v1/auth/verify-otp', {
+      const res = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp, new_password: newPassword })

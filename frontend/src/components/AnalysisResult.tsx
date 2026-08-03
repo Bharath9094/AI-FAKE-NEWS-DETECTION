@@ -9,7 +9,7 @@ import {
   ShieldAlert, ShieldCheck, Download, ExternalLink, Sparkles, 
   Brain, AlertTriangle, FileText, Share2, CheckCircle2, Bookmark
 } from 'lucide-react';
-import { toggleBookmark } from '../lib/api';
+import { toggleBookmark, API_BASE_URL } from '../lib/api';
 
 interface AnalysisResultProps {
   data: PredictionResponse;
@@ -25,7 +25,7 @@ export const AnalysisResult: React.FC<AnalysisResultProps> = ({ data, onReset })
       alert("Scan ID missing for export");
       return;
     }
-    window.open(`http://127.0.0.1:8000/api/v1/export/${data.id}?format=${format}`, '_blank');
+    window.open(`${API_BASE_URL}/export/${data.id}?format=${format}`, '_blank');
   };
 
   const handleBookmark = async () => {

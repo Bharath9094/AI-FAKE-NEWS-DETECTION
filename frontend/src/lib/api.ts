@@ -1,9 +1,28 @@
 import { PredictionResponse, AnalyticsData, User } from '../types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1';
+const getApiBaseUrl = (): string => {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return '/api/v1';
+  }
+  return 'http://127.0.0.1:8000/api/v1';
+};
+
+const API_BASE_URL = getApiBaseUrl();
+
+async function safeFetch(url: string, options?: RequestInit): Promise<Response> {
+  try {
+    return await fetch(url, options);
+  } catch (err: any) {
+    if (err?.name === 'TypeError' || err?.message?.includes('fetch') || err?.message?.includes('Failed')) {
+      throw new Error('Unable to connect to Backend Server. Please check if backend is running at ' + API_BASE_URL);
+    }
+    throw err;
+  }
+}
 
 export async function analyzeText(text: string, headline?: string, language: string = "en"): Promise<PredictionResponse> {
-  const res = await fetch(`${API_BASE_URL}/predict`, {
+  const res = await safeFetch(`${API_BASE_URL}/predict`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -19,7 +38,7 @@ export async function analyzeText(text: string, headline?: string, language: str
 }
 
 export async function analyzeURL(url: string, language: string = "en"): Promise<any> {
-  const res = await fetch(`${API_BASE_URL}/url`, {
+  const res = await safeFetch(`${API_BASE_URL}/url`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -38,7 +57,7 @@ export async function uploadDocument(file: File): Promise<PredictionResponse> {
   const formData = new FormData();
   formData.append('file', file);
 
-  const res = await fetch(`${API_BASE_URL}/upload`, {
+  const res = await safeFetch(`${API_BASE_URL}/upload`, {
     method: 'POST',
     headers: getAuthHeaders(false),
     body: formData
@@ -54,7 +73,7 @@ export async function uploadOCR(file: File): Promise<any> {
   const formData = new FormData();
   formData.append('file', file);
 
-  const res = await fetch(`${API_BASE_URL}/ocr`, {
+  const res = await safeFetch(`${API_BASE_URL}/ocr`, {
     method: 'POST',
     headers: getAuthHeaders(false),
     body: formData

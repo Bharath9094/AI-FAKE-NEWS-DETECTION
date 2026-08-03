@@ -1,0 +1,10 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.next/
+node_modules/
+backend/__pycache__/
+backend/ml/__pycache__/
+fake_news_app.db
+*.log
